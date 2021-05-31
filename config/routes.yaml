@@ -1,0 +1,4 @@
+sms77:
+  prefix: '%bolt.backend_url%'
+  resource: '../../vendor/sms77/bolt/src/Controller/Backend/'
+  type: annotation
