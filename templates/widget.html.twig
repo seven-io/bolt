@@ -1,0 +1,21 @@
+<div class='card mb-4'>
+    <div class='card-header'>
+        <i class='fas fa-plug'></i> {{ extension.name }}
+    </div>
+    <div class='card-body'>
+
+        <p>{{ extension.composerpackage.description }}</p>
+
+        <p>
+            <a href='/bolt/file-edit/config?file=extensions/sms77-bolt.yaml'
+               class='btn btn-secondary'>
+                <i class='fas fa-cog'></i> Config
+            </a>
+
+            <a href='{{ url('sms77_bulk_sms') }}'
+               class='btn btn-secondary'>
+                <i class='fas fa-envelope'></i> Bulk SMS
+            </a>
+        </p>
+    </div>
+</div>

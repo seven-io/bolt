@@ -11,9 +11,56 @@
     {% if apiKey is empty %}
         <h1>Missing API key. Please go to settings and set one.</h1>
     {% else %}
-        <form method='post'>
+        <form id='sms77_bulk_sms' method='post'>
             <input type='hidden' name='_csrf_token'
                    value='{{ csrf_token('sms77_bulk_sms') }}'>
+
+            {% include '@bolt/_partials/fields/text.html.twig' with {
+                'label': 'Label',
+                'name': 'label',
+            } %}
+
+            {% include '@bolt/_partials/fields/text.html.twig' with {
+                'label': 'Foreign ID',
+                'name': 'foreign_id',
+            } %}
+
+            {% include '@bolt/_partials/fields/date.html.twig' with {
+                'form': 'sms77_bulk_sms',
+                'label': 'Delay',
+                'locale': app.user.locale,
+                'mode' : 'datetime',
+                'name': 'delay',
+            } %}
+
+            {% include '@bolt/_partials/fields/text.html.twig' with {
+                'label': 'From',
+                'name': 'from',
+            } %}
+
+            <div style='display: flex'>
+                {% include '@bolt/_partials/fields/checkbox.html.twig' with {
+                    'label': 'Flash',
+                    'name': 'flash',
+                } %}
+
+                {% include '@bolt/_partials/fields/checkbox.html.twig' with {
+                    'label': 'Debug',
+                    'name': 'debug',
+                } %}
+
+                {% include '@bolt/_partials/fields/checkbox.html.twig' with {
+                    'label': 'No Reload',
+                    'name': 'no_reload',
+                } %}
+
+                {% include '@bolt/_partials/fields/checkbox.html.twig' with {
+                    'label': 'Performance Tracking',
+                    'name': 'performance_tracking',
+                } %}
+            </div>
+
+            <hr>
 
             {% include '@bolt/_partials/fields/textarea.html.twig' with {
                 'label': 'Text',
