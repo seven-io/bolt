@@ -1,0 +1,51 @@
+{% extends '@bolt/_base/layout.html.twig' %}
+{% import '@bolt/_macro/_macro.html.twig' as macro %}
+
+{% block shoulder %}Sms77{% endblock shoulder %}
+
+{% block title %}Bulk Voice{% endblock %}
+
+{% block vue_id 'editor' %}
+
+{% block main %}
+    {% if apiKey is empty %}
+        <h1>Missing API key. Please go to settings and set one.</h1>
+    {% else %}
+        <form id='sms77_bulk_voice' method='post'>
+            <input name='_csrf_token' type='hidden'
+                   value='{{ csrf_token('sms77_bulk_voice') }}'>
+
+            {% include '@bolt/_partials/fields/text.html.twig' with {
+                'label': 'From',
+                'name': 'from',
+            } %}
+
+            <div style='display: flex'>
+                {% include '@bolt/_partials/fields/checkbox.html.twig' with {
+                    'label': 'Debug',
+                    'name': 'debug',
+                } %}
+
+                {% include '@bolt/_partials/fields/checkbox.html.twig' with {
+                    'label': 'XML',
+                    'name': 'xml',
+                } %}
+            </div>
+
+            <hr>
+
+            {% include '@bolt/_partials/fields/textarea.html.twig' with {
+                'label': 'Text',
+                'maxlength': 10000,
+                'name': 'text',
+                'required': true,
+            } %}
+
+            <div class='form-group'>
+                <button class='btn btn-primary' name='save' type='submit'>
+                    {{ macro.icon('save') }}{{ 'action.save'|trans }}
+                </button>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}

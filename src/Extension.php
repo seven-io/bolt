@@ -3,7 +3,6 @@
 namespace Sms77\Bolt;
 
 use Bolt\Extension\BaseExtension;
-use Sms77\Bolt\ReferenceWidget;
 
 class Extension extends BaseExtension {
     /** Return the full name of the extension */
@@ -29,18 +28,5 @@ class Extension extends BaseExtension {
      * and efficient.
      */
     public function initializeCli(): void {
-    }
-
-    /**
-     * @return array
-     */
-    protected function registerMenuEntries() {
-        $entry = new MenuEntry('sms77-menu', 'sms77');
-        $entry
-            ->setLabel('Sms77 - Settings')
-            ->setIcon('fa:cogs')
-            ->setPermission('settings');
-
-        return [$entry];
     }
 }

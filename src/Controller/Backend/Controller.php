@@ -6,6 +6,8 @@ use Bolt\Configuration\Config;
 use Bolt\Extension\ExtensionController;
 use Bolt\Extension\ExtensionRegistry;
 use Bolt\Repository\ContentRepository;
+use DateTime;
+use Exception;
 use Sms77\Bolt\Extension;
 use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,14 +24,26 @@ class Controller extends ExtensionController {
         $this->contentRepository = $contentRepository;
     }
 
+    /**
+     * @return Collection
+     */
     private function getExtensionConfig(): Collection {
         return $this->registry->getExtension(Extension::class)->getConfig();
     }
 
-    private function getApiKey(Collection $collection) {
+    /**
+     * @return string
+     * @var Collection $collection
+     */
+    private function getApiKey(Collection $collection): string {
         return $collection->get('apiKey');
     }
 
+    /**
+     * @param string $endpoint
+     * @param array $data
+     * @return bool|string
+     */
     private function post(string $endpoint, array $data) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://gateway.sms77.io/api/' . $endpoint);
@@ -46,11 +60,26 @@ class Controller extends ExtensionController {
         return $res;
     }
 
-    private function sms(string $to, string $text, array $data = []) {
-        return $this->post('sms', array_merge($data, compact('text', 'to')));
+    /**
+     * @param string $endpoint
+     * @param string $to
+     * @param string $text
+     * @param array $data
+     * @return bool|string
+     */
+    private function message(string $endpoint, string $to, string $text, array $data = []) {
+        return $this->post($endpoint, array_merge($data, compact('text', 'to')));
     }
 
-    private function handleBulkSms(Request $req, array $mappings): void {
+    /**
+     * @param string $type
+     * @param Request $req
+     * @param array $mappings
+     * @throws Exception
+     */
+    private function handleBulk(string $type, Request $req, array $mappings): void {
+        $extra = $this->getExtraOptions($req->request, 'sms' === $type);
+
         foreach ($mappings as $contentType => $phoneField) {
             $contents = $this->contentRepository->findBy(['contentType' => $contentType]);
 
@@ -73,35 +102,64 @@ class Controller extends ExtensionController {
                     $text = str_replace('{{' . $match . '}}', $value[0], $text);
                 }
 
-                $this->addFlash('notice',
-                    $this->sms($to[0], $text, $this->getExtraSmsOptions($req->request)));
+                $this->addFlash('notice', $this->message($type, $to[0], $text, $extra));
             }
         }
     }
 
-    private function getExtraSmsOptions(InputBag $bag): array {
-        $delay = $bag->get('delay');
-        if ($delay) $delay = (new \DateTime($delay))->getTimestamp();
-
-        return [
+    /**
+     * @param InputBag $bag
+     * @param bool $isSMS
+     * @return array
+     * @throws Exception
+     */
+    private function getExtraOptions(InputBag $bag, bool $isSMS): array {
+        $extras = [
             'debug' => (int)$bag->getBoolean('debug'),
-            'delay' => $delay,
-            'label' => $bag->get('label'),
-            'foreign_id' => $bag->get('foreign_id'),
-            'flash' => (int)$bag->getBoolean('flash'),
             'from' => $bag->get('from'),
-            'no_reload' => (int)$bag->getBoolean('no_reload'),
-            'performance_tracking' => (int)$bag->getBoolean('performance_tracking'),
         ];
+
+        if ($isSMS) {
+            $delay = $bag->get('delay');
+            if ($delay) $delay = (new DateTime($delay))->getTimestamp();
+
+            $extras = array_merge($extras, [
+                'delay' => $delay,
+                'foreign_id' => $bag->get('foreign_id'),
+                'flash' => (int)$bag->getBoolean('flash'),
+                'label' => $bag->get('label'),
+                'no_reload' => (int)$bag->getBoolean('no_reload'),
+                'performance_tracking' => (int)$bag->getBoolean('performance_tracking'),
+            ]);
+        } else $extras['xml'] = (int)$bag->getBoolean('xml');
+
+        return $extras;
     }
 
-    /** @Route("/sms77/bulk/sms", name="sms77_bulk_sms", methods={"GET", "POST"}) */
+    /**
+     * @Route("/sms77/bulk/sms", name="sms77_bulk_sms", methods={"GET", "POST"})
+     * @return Response
+     * @throws Exception
+     */
     public function bulk_sms(): Response {
+        return $this->bulk('sms');
+    }
+
+    /**
+     * @Route("/sms77/bulk/voice", name="sms77_bulk_voice", methods={"GET", "POST"})
+     * @return Response
+     * @throws Exception
+     */
+    public function bulk_voice(): Response {
+        return $this->bulk('voice');
+    }
+
+    private function bulk(string $type): Response {
         $cfg = $this->getExtensionConfig();
         $req = $this->getRequest();
 
-        if ('POST' === $req->getMethod()) $this->handleBulkSms($req, $cfg['mappings']);
+        if ('POST' === $req->getMethod()) $this->handleBulk($type, $req, $cfg['mappings']);
 
-        return $this->render('@sms77-bolt/bulk_sms.html.twig', $cfg->toArray());
+        return $this->render('@sms77-bolt/bulk_' . $type . '.html.twig', $cfg->toArray());
     }
 }

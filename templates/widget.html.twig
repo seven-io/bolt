@@ -3,7 +3,6 @@
         <i class='fas fa-plug'></i> {{ extension.name }}
     </div>
     <div class='card-body'>
-
         <p>{{ extension.composerpackage.description }}</p>
 
         <p>
@@ -15,6 +14,11 @@
             <a href='{{ url('sms77_bulk_sms') }}'
                class='btn btn-secondary'>
                 <i class='fas fa-envelope'></i> Bulk SMS
+            </a>
+
+            <a href='{{ url('sms77_bulk_voice') }}'
+               class='btn btn-secondary'>
+                <i class='fas fa-envelope'></i> Bulk Voice
             </a>
         </p>
     </div>

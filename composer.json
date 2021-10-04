@@ -12,7 +12,7 @@
             "Sms77\\Bolt\\": "src/"
         }
     },
-    "description": "Bolt extension for sending SMS via Sms77.io",
+    "description": "Bolt extension for sending SMS and making text-to-speech calls via sms77.io",
     "extra": {
         "entrypoint": "Sms77\\Bolt\\Extension"
     },

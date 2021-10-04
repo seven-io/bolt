@@ -6,7 +6,7 @@
 
 1. `composer require sms77/bolt`
 
-2. Add Content Type for mobile phone:
+2. Add Content Type for mobile phone field:
 
 ```yaml
     people:
