@@ -1,6 +1,7 @@
 ![Sms77.io Logo](https://www.sms77.io/wp-content/uploads/2019/07/sms77-Logo-400x79.png "Sms77.io Logo")
 
 # Official Extension for [BoltCMS](https://bolt.cm)
+Send SMS and make text-to-speech calls.
 
 ## Installation
 
@@ -19,7 +20,16 @@
 
 3. Head to `/bolt/file-edit/config?file=/extensions/sms77-bolt.yaml` and fill out apiKey.
    Alternatively adjust `mappings` where each key represents a content type and the
-   corresponding value is a mobile number field.
+   corresponding value is a mobile number field. **Notice:** You can also edit this file via `Maintenance->Extensions->Configuration` in the administration area.
+
+## Usage
+Check out the widget in the administration dashboard.
+
+### Send SMS
+Send SMS to all of your content types.
+
+### Make Text-To-speech calls
+Calls a given phone number and reads the given text out loud.
 
 ### Message Placeholders
 
