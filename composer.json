@@ -1,24 +1,24 @@
 {
     "authors": [
         {
-            "email": "a.matthies@sms77.io",
-            "homepage": "https://www.sms77.io",
+            "email": "a.matthies@seven.io",
+            "homepage": "https://www.seven.io",
             "name": "André Matthies",
             "role": "Developer"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Sms77\\Bolt\\": "src/"
+            "Seven\\Bolt\\": "src/"
         }
     },
-    "description": "Bolt extension for sending SMS and making text-to-speech calls via sms77.io",
+    "description": "Bolt extension for sending SMS and making text-to-speech calls via seven.io",
     "extra": {
-        "entrypoint": "Sms77\\Bolt\\Extension"
+        "entrypoint": "Seven\\Bolt\\Extension"
     },
     "license": "MIT",
     "minimum-stability": "dev",
-    "name": "sms77/bolt",
+    "name": "seven.io/bolt",
     "prefer-stable": true,
     "require": {
         "php": ">=7.2.9",

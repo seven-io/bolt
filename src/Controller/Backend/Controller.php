@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Sms77\Bolt\Controller\Backend;
+namespace Seven\Bolt\Controller\Backend;
 
 use Bolt\Configuration\Config;
 use Bolt\Extension\ExtensionController;
@@ -8,7 +8,7 @@ use Bolt\Extension\ExtensionRegistry;
 use Bolt\Repository\ContentRepository;
 use DateTime;
 use Exception;
-use Sms77\Bolt\Extension;
+use Seven\Bolt\Extension;
 use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +46,7 @@ class Controller extends ExtensionController {
      */
     private function post(string $endpoint, array $data) {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://gateway.sms77.io/api/' . $endpoint);
+        curl_setopt($ch, CURLOPT_URL, 'https://gateway.seven.io/api/' . $endpoint);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Accept: application/json',
@@ -137,7 +137,7 @@ class Controller extends ExtensionController {
     }
 
     /**
-     * @Route("/sms77/bulk/sms", name="sms77_bulk_sms", methods={"GET", "POST"})
+     * @Route("/seven/bulk/sms", name="seven_bulk_sms", methods={"GET", "POST"})
      * @return Response
      * @throws Exception
      */
@@ -146,7 +146,7 @@ class Controller extends ExtensionController {
     }
 
     /**
-     * @Route("/sms77/bulk/voice", name="sms77_bulk_voice", methods={"GET", "POST"})
+     * @Route("/seven/bulk/voice", name="seven_bulk_voice", methods={"GET", "POST"})
      * @return Response
      * @throws Exception
      */
@@ -160,6 +160,6 @@ class Controller extends ExtensionController {
 
         if ('POST' === $req->getMethod()) $this->handleBulk($type, $req, $cfg['mappings']);
 
-        return $this->render('@sms77-bolt/bulk_' . $type . '.html.twig', $cfg->toArray());
+        return $this->render('@seven-bolt/bulk_' . $type . '.html.twig', $cfg->toArray());
     }
 }

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Sms77\Bolt;
+namespace Seven\Bolt;
 
 use Bolt\Extension\BaseExtension;
 
 class Extension extends BaseExtension {
     /** Return the full name of the extension */
     public function getName(): string {
-        return 'Sms77';
+        return 'Seven';
     }
 
     /**
@@ -18,7 +18,7 @@ class Extension extends BaseExtension {
      */
     public function initialize($cli = false): void {
         $this->addWidget(new ReferenceWidget());
-        $this->addTwigNamespace('sms77-bolt');
+        $this->addTwigNamespace('seven-bolt');
     }
 
     /**

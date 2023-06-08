@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Sms77\Bolt;
+namespace Seven\Bolt;
 
 use Bolt\Widget\BaseWidget;
 use Bolt\Widget\CacheAwareInterface;
@@ -17,9 +17,9 @@ class ReferenceWidget extends BaseWidget
     use StopwatchTrait;
 
     protected $cacheDuration = -1800;
-    protected $name = 'Sms77 BackWidget';
+    protected $name = 'Seven BackWidget';
     protected $priority = 200;
     protected $target = AdditionalTarget::WIDGET_BACK_DASHBOARD_ASIDE_TOP;
-    protected $template = '@sms77-bolt/widget.html.twig';
+    protected $template = '@seven-bolt/widget.html.twig';
     protected $zone = RequestZone::BACKEND;
 }

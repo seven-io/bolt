@@ -1,7 +1,7 @@
 {% extends '@bolt/_base/layout.html.twig' %}
 {% import '@bolt/_macro/_macro.html.twig' as macro %}
 
-{% block shoulder %}Sms77{% endblock shoulder %}
+{% block shoulder %}Seven{% endblock shoulder %}
 
 {% block title %}Bulk SMS{% endblock %}
 
@@ -11,9 +11,9 @@
     {% if apiKey is empty %}
         <h1>Missing API key. Please go to settings and set one.</h1>
     {% else %}
-        <form id='sms77_bulk_sms' method='post'>
+        <form id='seven_bulk_sms' method='post'>
             <input type='hidden' name='_csrf_token'
-                   value='{{ csrf_token('sms77_bulk_sms') }}'>
+                   value='{{ csrf_token('seven_bulk_sms') }}'>
 
             {% include '@bolt/_partials/fields/text.html.twig' with {
                 'label': 'Label',
@@ -26,7 +26,7 @@
             } %}
 
             {% include '@bolt/_partials/fields/date.html.twig' with {
-                'form': 'sms77_bulk_sms',
+                'form': 'seven_bulk_sms',
                 'label': 'Delay',
                 'locale': app.user.locale,
                 'mode' : 'datetime',
