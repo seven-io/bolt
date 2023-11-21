@@ -115,7 +115,6 @@ class Controller extends ExtensionController {
      */
     private function getExtraOptions(InputBag $bag, bool $isSMS): array {
         $extras = [
-            'debug' => (int)$bag->getBoolean('debug'),
             'from' => $bag->get('from'),
         ];
 
